@@ -135,9 +135,14 @@ const app = {
             }
             var mouseClickX = e.clientX;
             seekedLine.style.width =
-                mouseClickX - seekingLine.offsetLeft + 'px';
+                mouseClickX -
+                (seekingLine.offsetLeft + seekingLine.offsetParent.offsetLeft) +
+                'px';
             audio.currentTime =
-                ((mouseClickX - seekingLine.offsetLeft) / seekingLineWith) *
+                ((mouseClickX -
+                    (seekingLine.offsetLeft +
+                        seekingLine.offsetParent.offsetLeft)) /
+                    seekingLineWith) *
                 (audio.duration / 100) *
                 100;
         };
