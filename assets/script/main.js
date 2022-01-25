@@ -110,6 +110,11 @@ const app = {
         };
 
         audio.ontimeupdate = function () {
+            if (window.screen.width <= 739) {
+                seekingLineWith = 260;
+            } else {
+                seekingLineWith = 740;
+            }
             currentTimeInSeconds = audio.currentTime;
             function fmtMSS(s) {
                 return (s - (s %= 60)) / 60 + (9 < s ? ':' : ':0') + s;
@@ -118,16 +123,21 @@ const app = {
                 Math.floor(currentTimeInSeconds)
             ).padStart(5, '0');
             var percentage = (currentTimeInSeconds / audio.duration) * 100;
-            var seekedWidth = (740 / 100) * percentage;
+            var seekedWidth = (seekingLineWith / 100) * percentage;
             seekedLine.style.width = seekedWidth + 'px';
         };
 
         seekingLine.onclick = function (e) {
+            if (window.screen.width <= 739) {
+                seekingLineWith = 260;
+            } else {
+                seekingLineWith = 740;
+            }
             var mouseClickX = e.clientX;
             seekedLine.style.width =
                 mouseClickX - seekingLine.offsetLeft + 'px';
             audio.currentTime =
-                ((mouseClickX - seekingLine.offsetLeft) / 740) *
+                ((mouseClickX - seekingLine.offsetLeft) / seekingLineWith) *
                 (audio.duration / 100) *
                 100;
         };
@@ -202,8 +212,8 @@ const app = {
         const htmls = this.songs.map((song, index) => {
             return `
                 <div class="list-item row" data-index=${index}>
-                    <span class="song-id col l-1">${index + 1}</span>
-                    <div class="song-content col l-6">
+                    <span class="song-id col l-1 m-1 c-1">${index + 1}</span>
+                    <div class="song-content col l-6 m-6 c-6">
                         <img
                             src="${song.img}"
                             alt=""
@@ -211,10 +221,10 @@ const app = {
                         />
                         <span class="song-name">${song.name}</span>
                     </div>
-                    <span class="song-singer-name col l-3"
+                    <span class="song-singer-name col l-3 m-3 c-3"
                         >${song.singer}</span
                     >
-                    <span class="song-time col l-2">${song.time}</span>
+                    <span class="song-time col l-2 m-3 c-3">${song.time}</span>
                 </div>
             `;
         });
